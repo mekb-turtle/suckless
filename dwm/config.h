@@ -110,6 +110,7 @@ static Key keys[] = {
 	// applications
 	{ SUPERKEY,                     XK_t,           spawn,           {.v = (const char*[]) { "kitty", NULL }} },
 	{ SUPERKEY,                     XK_y,           spawn,           {.v = (const char*[]) { "librewolf", NULL }} },
+	{ SUPERKEY,                     XK_k,           spawn,           {.v = (const char*[]) { "keepassxc", NULL }} },
 	// lock
 	{ SUPERKEY,                     XK_l,           spawn,           {.v = (const char*[]) { "slock", NULL }} },
 	// screenshot
