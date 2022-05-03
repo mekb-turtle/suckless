@@ -81,11 +81,14 @@ static const char *const autostart[] = {
 	"kitty", NULL,
 	"picom", NULL,
 	"hsetroot", "-solid", "#0a0a0f", NULL,
-	"caffeine", NULL,
+	//"caffeine", NULL,
 	"volumeicon", NULL,
 	"flameshot", NULL,
 	"nm-applet", NULL,
 	"xautolock", "-time", "1", "-locker", "slock", NULL,
+	"slstatus", NULL,
+	"slock", NULL, // lock on startup as i have autologin
+	"numlockx", NULL,
 	NULL
 };
 
