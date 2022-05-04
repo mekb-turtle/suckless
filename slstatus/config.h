@@ -76,7 +76,7 @@ static const struct arg args[] = {
 	{ disk_used,     "D %s - ",     "/" },
 //	{ disk_total,    "%s - ",       "/" },
 	{ battery_perc,  "B %s%%",      "BAT1" },
-	{ battery_state, "%s",       "BAT1" },
+	{ battery_state, "%s",          "BAT1" },
 //	{ vol_perc,      "%s",          NULL },
 //	{ run_command,   "V %s",        "pactl get-sink-volume \"$(pactl list short sinks|head -c1)\"|grep '%'|tr ',' '\\n'|sed -r \"s/^.*\\/ +([0-9]{1,3}\\%).*$/\\1/\"" },
 //	{ run_command,   "%s",          "bash -c 'pactl get-sink-mute \"$(pactl list short sinks|head -c1)\"|grep yes >/dev/null&&echo \"m\"'" },
