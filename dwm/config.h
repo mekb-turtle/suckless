@@ -74,7 +74,7 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { color_panel_text_selected, color_selected, color_border_selected },
 };
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "/home/mekb/.local/bin/dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", color, "-nf", color_panel_text, "-sb", color_selected, "-sf", color_panel_text_selected, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", color, "-nf", color_panel_text, "-sb", color_selected, "-sf", color_panel_text_selected, NULL };
 
 static const char *const autostart[] = {
 	"dunst", NULL,
@@ -96,7 +96,7 @@ static const char *decBri[] = { "xbacklight", "-dec", "15", NULL };
 static const char *incBri[] = { "xbacklight", "-inc", "15", NULL };
 static const char *pavu[] = { "pavucontrol", NULL };
 
-static Key keys[] = {
+static Key keys[] = { // how to get XK_ codes $ script -qefc xev /dev/null|grep keysym\ 0x --color=never
 	/* modifier                     key             function             argument */
 	// numpad volume/brightness
 	{ SUPERKEY,                     XK_KP_Next,     spawn, {.v = decBri } },
@@ -119,10 +119,10 @@ static Key keys[] = {
 	// screenshot
 	{ 0,                            XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "gui", NULL }} },
 	{ ShiftMask,                    XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "launcher", NULL }} },
-	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "$HOME/.bin/misc/flameshot_window", NULL }} },
+	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "$HOME/.bin/misc/flameshot_window", NULL }} }, // https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2
 	{ MODKEY,                       XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "$HOME/.bin/misc/colorpickernotify", NULL }} },
 	// shutdown gui
-	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "python $HOME/.bin/misc/shutdownprompt/shutdownprompt.py", pidstring, NULL }} },
+	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "python $HOME/.bin/misc/shutdownprompt/shutdownprompt.py", pidstring, NULL }} }, // https://github.com/mekb-turtle/shutdownprompt
 	// kill client
 	{ MODKEY|ControlMask,           XK_End,         killclient,      {0} },
 	// tags
@@ -149,8 +149,8 @@ static Key keys[] = {
 	// move divider
 	{ SUPERKEY,                     XK_Left,        setmfact,        {.f = -0.025} },
 	{ SUPERKEY,                     XK_Right,       setmfact,        {.f = +0.025} },
-	{ SUPERKEY|ControlMask,         XK_Left,        setmfact,        {.f = -0.001} },
-	{ SUPERKEY|ControlMask,         XK_Right,       setmfact,        {.f = +0.001} },
+	{ SUPERKEY|ControlMask,         XK_Left,        setmfact,        {.f = -0.0025} },
+	{ SUPERKEY|ControlMask,         XK_Right,       setmfact,        {.f = +0.0025} },
 	// switch layout
 	{ MODKEY|ControlMask,           XK_space,       setlayout,       {0} },
 	{ MODKEY|ControlMask,           XK_1,           setlayout,       {.v = &layouts[0]} },
@@ -162,6 +162,8 @@ static Key keys[] = {
 	{ SUPERKEY,                     XK_period,      focusmon,        {.i = +1 } },
 	{ SUPERKEY|ShiftMask,           XK_comma,       tagmon,          {.i = -1 } },
 	{ SUPERKEY|ShiftMask,           XK_period,      tagmon,          {.i = +1 } },
+	{ MODKEY|ControlMask,           XK_Tab,         focusmon,        {.i = +1 } },
+	{ MODKEY|ShiftMask|ControlMask, XK_Tab,         focusmon,        {.i = -1 } },
 	/*
 	// gaps
 	{ SUPERKEY|ShiftMask,           XK_minus,       setgaps,         {.i = -1 } },
