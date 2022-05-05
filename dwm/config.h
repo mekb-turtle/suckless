@@ -125,7 +125,7 @@ static Key keys[] = { // how to get XK_ codes $ script -qefc xev /dev/null|grep 
 	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/flameshot_window", NULL }} }, // https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2
 	{ MODKEY,                       XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/colorpickernotify", NULL }} },
 	// shutdown gui
-	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "exec python $HOME/.bin/misc/shutdownprompt/shutdownprompt.py", pidstring, NULL }} }, // https://github.com/mekb-turtle/shutdownprompt
+	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "exec python $HOME/.bin/misc/shutdownprompt/shutdownprompt.py \"$0\"", pidstring, NULL }} }, // https://github.com/mekb-turtle/shutdownprompt
 	// kill client
 	{ MODKEY|ControlMask,           XK_End,         killclient,      {0} },
 	// tags

@@ -166,7 +166,6 @@ struct Systray {
 };
 
 /* function declarations */
-static char pidstring[50];
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void labelmon(Monitor* m, const char* sym);
@@ -308,6 +307,8 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon, *statmon;
 static Window root, wmcheckwin;
+
+static char pidstring[50];
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -1867,6 +1868,7 @@ setmfact(const Arg *arg)
 void
 setup(void)
 {
+	sprintf(pidstring, "logoutpid%i", getpid());
 	int i;
 	XSetWindowAttributes wa;
 	Atom utf8string;
@@ -2710,6 +2712,7 @@ zoom(const Arg *arg)
 int
 main(int argc, char *argv[])
 {
+	printf("%s",pidstring);
 	if (argc == 2 && !strcmp("-v", argv[1]))
 		die("dwm-"VERSION);
 	else if (argc != 1)
@@ -2720,7 +2723,6 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	checkotherwm();
 	autostart_exec();
-	sprintf(pidstring, "logoutpid%i", getpid());
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
