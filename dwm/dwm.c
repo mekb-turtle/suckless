@@ -20,6 +20,8 @@
  *
  * To understand everything else, start reading main().
  */
+#include <time.h>
+#include <sys/time.h>
 #include <errno.h>
 #include <locale.h>
 #include <signal.h>
@@ -49,7 +51,7 @@
 #define CLEANMASK(mask)         (mask & ~(numlockmask|LockMask) & (ShiftMask|ControlMask|Mod1Mask|Mod2Mask|Mod3Mask|Mod4Mask|Mod5Mask))
 #define INTERSECT(x,y,w,h,m)    (MAX(0, MIN((x)+(w),(m)->wx+(m)->ww) - MAX((x),(m)->wx)) \
                                * MAX(0, MIN((y)+(h),(m)->wy+(m)->wh) - MAX((y),(m)->wy)))
-#define ISVISIBLE(C)            ((C->tags & C->mon->tagset[C->mon->seltags]))
+#define ISVISIBLE(C)            (C->tags & C->mon->tagset[C->mon->seltags])
 #define LENGTH(X)               (sizeof X / sizeof X[0])
 #define MOUSEMASK               (BUTTONMASK|PointerMotionMask)
 #define WIDTH(X)                ((X)->w + 2 * (X)->bw)
@@ -274,7 +276,7 @@ static void autostart_exec(void);
 static Systray *systray = NULL;
 static const char broken[] = "broken";
 static const char brokenTitle[] = "-";
-static char stext[256];
+static char stext[512];
 static int screen;
 static int sw, sh;           /* X display screen geometry width, height */
 static int bh, blw = 0;      /* bar geometry */
@@ -510,7 +512,7 @@ buttonpress(XEvent *e)
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
 			click = ClkLtSymbol;
-		else if (ev->x > selmon->ww - (int)TEXTW(stext) - getsystraywidth())
+		else if (ev->x > selmon->ww - (fixedstextw > 0 ? fixedstextw : (int)TEXTW(stext)) - getsystraywidth())
 			click = ClkStatusText;
 		else
 			click = ClkWinTitle;
@@ -848,6 +850,15 @@ dirtomon(int dir)
 		for (m = mons; m->next != selmon; m = m->next);
 	return m;
 }
+/*
+char get_flash() {
+	if (!flashinterval) return 1;
+	struct timeval s;
+	gettimeofday(&s, NULL);
+	float t = s.tv_sec % (flashinterval*2) + (float)s.tv_usec / 1e6;
+	int h = 1000;
+	return (int)(t*flashinterval*h)%h<(h/2);
+}*/
 
 void
 drawbar(Monitor *m)
@@ -868,7 +879,7 @@ drawbar(Monitor *m)
 	/* draw status first so it can be overdrawn by tags later */
 	if (m == statmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
-		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px extra right padding */
+		tw = (fixedstextw > 0 && !fixedalignright ? fixedstextw : TEXTW(stext)) - lrpad / 2 + 2; /* 2px extra right padding */
 		drw_text(drw, m->ww - tw - stw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
 	}
 
@@ -882,26 +893,32 @@ drawbar(Monitor *m)
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
-		/*
-		w = TEXTW(tags[i]);
-		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-		if (occ & 1 << i)
-			drw_rect(drw, x + boxs, boxs, boxw, boxw,
-				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-				urg & 1 << i);
-		*/
+/*
 		tagtext = occ & 1 << i ? alttags[i] : tags[i];
 		w = TEXTW(tagtext);
  		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tagtext, urg & 1 << i);
 		if (occ & 1 << i)
-			/*drw_rect(drw, x + boxs, bh-boxs*2, w-boxs*2, boxs,
+			/ *drw_rect(drw, x + boxs, bh-boxs*2, w-boxs*2, boxs,
 				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-				(urg & 1 << i));*/
+				(urg & 1 << i));* /
 			drw_rect(drw, x + boxs, 0 + boxs, w-boxs*2, bh-boxs*2,
 				0,//m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
 				(urg & 1 << i));
+			*/
+		tagtext = (alturg ? urg : occ) & 1 << i ? alttags[i] : tags[i];
+		w = TEXTW(tagtext);
+		char flash = 1;//get_flash();
+		char invert = (urg & 1 << i) && flash;
+ 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+		drw_text(drw, x, 0, w, bh, lrpad / 2, tagtext, invert);
+		if (occ & 1 << i)
+//			drw_rect(drw, x + boxs, bh-boxs*2, w-boxs*2, boxs,      // line at bottom of tag
+			drw_rect(drw, x + boxs,    boxs  , w-boxs*2, bh-boxs*2, // square covering whole tag
+				0,
+				//m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
+				//1);
+				invert);
 		x += w;
 	}
 	w = blw = TEXTW(m->ltsymbol);
@@ -1354,8 +1371,9 @@ monocle(Monitor *m)
 			n++;
 //	if (n > 0) /* override layout symbol */
 //		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[%d]", n);
-	for (c = nexttiled(m->clients); c; c = nexttiled(c->next))
+	for (c = nexttiled(m->clients); c; c = nexttiled(c->next)) {
 		resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - gappx * 2, m->wh - 2 * c->bw - gappx * 2, 0);
+	}
 }
 
 void
@@ -1902,6 +1920,34 @@ setup(void)
 	/* init bars */
 	updatebars();
 	updatestatus();
+	/* start timer to redraw bars for flashing tag with urgent window */
+	/* not working, not sure why, disabling this for now
+	if (flashinterval) {
+		if (signal(SIGALRM, (void(*)(int))drawbars) != SIG_ERR) {
+			pid_t f = fork();
+			if (f == 0) {
+				while (1) {
+					struct timespec tv;
+					tv.tv_sec = 1;
+					tv.tv_nsec = 0;
+					nanosleep(&tv, NULL);
+					if (kill(getppid(), SIGALRM) != 0) {
+						printf("%s", strerror(errno));
+						break;
+					}
+				}
+				return;
+			} else if (f < 0) die(strerror(errno));
+			// both methods don't work
+			struct itimerval it;
+			it.it_interval.tv_sec = 0;
+			it.it_interval.tv_usec = 1e6 * 10;
+			if (setitimer(ITIMER_VIRTUAL, &it, NULL) == 0) {
+				die(strerror(errno));
+			}
+		} else die(strerror(errno));
+	}
+	*/
 	/* supporting window for NetWMCheck */
 	wmcheckwin = XCreateSimpleWindow(dpy, root, 0, 0, 1, 1, 0, 0, 0);
 	XChangeProperty(dpy, wmcheckwin, netatom[NetWMCheck], XA_WINDOW, 32,
@@ -1980,8 +2026,6 @@ sigchld(int unused)
 
 	}
 }
-
-static char pidstring[50];
 
 void
 spawn(const Arg *arg)
@@ -2447,7 +2491,7 @@ updatesystray(void)
 	Client *i;
 	Monitor *m = systraytomon(NULL);
 	unsigned int x = m->mx + m->mw;
-	unsigned int sw = TEXTW(stext) - lrpad + systrayspacing;
+	unsigned int sw = (fixedstextw > 0 ? fixedstextw : TEXTW(stext)) - lrpad + systrayspacing;
 	unsigned int w = 1;
 
 	if (!showsystray)
@@ -2666,7 +2710,6 @@ zoom(const Arg *arg)
 int
 main(int argc, char *argv[])
 {
-	sprintf(pidstring, "logoutpid%i", getpid());
 	if (argc == 2 && !strcmp("-v", argv[1]))
 		die("dwm-"VERSION);
 	else if (argc != 1)
@@ -2677,6 +2720,7 @@ main(int argc, char *argv[])
 		die("dwm: cannot open display");
 	checkotherwm();
 	autostart_exec();
+	sprintf(pidstring, "logoutpid%i", getpid());
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)

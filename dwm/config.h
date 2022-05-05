@@ -10,18 +10,21 @@ static const unsigned int snap      = 24;        /* snap pixel */
 static const unsigned int systraypinning = 1;    /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 1;   	 /* 0: systray in the right corner, >0: systray on left of status text */
 static const unsigned int systrayspacing = 4;    /* systray spacing */
+static const int fixedstextw = 600;   // make status text fixed width so systray doesn't keep moving
+static const int fixedalignright = 1; // align status text on 0 = left, 1 = right, doesn't affect systray
 static const int systraypinningfailfirst = 1;    /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;         /* 0 means no systray */
 static const int showbar            = 1;         /* 0 means no bar */
 static const int topbar             = 1;         /* 0 means bottom bar */
-static const char *fonts[]          = { "Ubuntu:size=12", "Twemoji:size=12" };
+static const char *fonts[]          = { "Ubuntu:size=12" };
 static const char dmenufont[]       = "Ubuntu:size=12";
 
 /* tagging */
 //static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 //static const char *alttags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *tags[] = { "1", "2", "3", "4" };
-static const char *alttags[] = { "1", "2", "3", "4" };
+static const char *tags[]      = { "1", "2", "3", "4" }; // { "a", "b", "c", "d" };
+static const char *alttags[]   = { "1", "2", "3", "4" }; // { "a", "b", "c", "d" }; // { "A", "B", "C", "D" };
+static const char alturg = 0; // whether to use alt tag if 1 = an urgent window is on that tag, 0 = urgent or non-urgent window is on that tag
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -85,9 +88,9 @@ static const char *const autostart[] = {
 	"volumeicon", NULL,
 	"flameshot", NULL,
 	"nm-applet", NULL,
-	"xautolock", "-time", "1", "-locker", "slock", NULL,
+	"xautolock", "-time", "1", "-locker", "slock", NULL, // temporarily disabled
 	"slstatus", NULL,
-	"slock", NULL, // lock on startup as i have autologin
+	//"slock", NULL, // uncomment if you want to lock on startup if you have autologin
 	"numlockx", NULL,
 	NULL
 };
@@ -119,10 +122,10 @@ static Key keys[] = { // how to get XK_ codes $ script -qefc xev /dev/null|grep 
 	// screenshot
 	{ 0,                            XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "gui", NULL }} },
 	{ ShiftMask,                    XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "launcher", NULL }} },
-	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "$HOME/.bin/misc/flameshot_window", NULL }} }, // https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2
-	{ MODKEY,                       XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "$HOME/.bin/misc/colorpickernotify", NULL }} },
+	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/flameshot_window", NULL }} }, // https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2
+	{ MODKEY,                       XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/colorpickernotify", NULL }} },
 	// shutdown gui
-	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "python $HOME/.bin/misc/shutdownprompt/shutdownprompt.py", pidstring, NULL }} }, // https://github.com/mekb-turtle/shutdownprompt
+	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "exec python $HOME/.bin/misc/shutdownprompt/shutdownprompt.py", pidstring, NULL }} }, // https://github.com/mekb-turtle/shutdownprompt
 	// kill client
 	{ MODKEY|ControlMask,           XK_End,         killclient,      {0} },
 	// tags
