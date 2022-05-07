@@ -20,10 +20,8 @@ static const char *fonts[]          = { "Ubuntu:size=12" };
 static const char dmenufont[]       = "Ubuntu:size=12";
 
 /* tagging */
-//static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-//static const char *alttags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *tags[]      = { "1", "2", "3", "4" }; // { "a", "b", "c", "d" };
-static const char *alttags[]   = { "1", "2", "3", "4" }; // { "a", "b", "c", "d" }; // { "A", "B", "C", "D" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *alttags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const char alturg = 0; // whether to use alt tag if 1 = an urgent window is on that tag, 0 = urgent or non-urgent window is on that tag
 
 static const Rule rules[] = {
@@ -133,11 +131,11 @@ static Key keys[] = { // how to get XK_ codes $ script -qefc xev /dev/null|grep 
 	TAGKEYS(                        XK_2,                            1),
 	TAGKEYS(                        XK_3,                            2),
 	TAGKEYS(                        XK_4,                            3),
-//	TAGKEYS(                        XK_5,                            4),
-//	TAGKEYS(                        XK_6,                            5),
-//	TAGKEYS(                        XK_7,                            6),
-//	TAGKEYS(                        XK_8,                            7),
-//	TAGKEYS(                        XK_9,                            8),
+	TAGKEYS(                        XK_5,                            4),
+	TAGKEYS(                        XK_6,                            5),
+	TAGKEYS(                        XK_7,                            6),
+	TAGKEYS(                        XK_8,                            7),
+	TAGKEYS(                        XK_9,                            8),
 	// toggle bar
 	{ SUPERKEY,                     XK_b,           togglebar,       {0} },
 	// arrange window
