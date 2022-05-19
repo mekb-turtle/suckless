@@ -86,7 +86,7 @@ static const char *const autostart[] = {
 	"volumeicon", NULL,
 	"flameshot", NULL,
 	"nm-applet", NULL,
-	"xautolock", "-time", "1", "-locker", "slock", NULL, // temporarily disabled
+	"xautolock", "-time", "1", "-locker", "slock", NULL,
 	"slstatus", NULL,
 	//"slock", NULL, // uncomment if you want to lock on startup if you have autologin
 	"numlockx", NULL,
