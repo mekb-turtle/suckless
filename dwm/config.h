@@ -163,6 +163,8 @@ static Key keys[] = { // how to get XK_ codes $ script -qefc xev /dev/null|grep 
 	{ SUPERKEY,                     XK_period,      focusmon,        {.i = +1 } },
 	{ SUPERKEY|ShiftMask,           XK_comma,       tagmon,          {.i = -1 } },
 	{ SUPERKEY|ShiftMask,           XK_period,      tagmon,          {.i = +1 } },
+	{ SUPERKEY|ShiftMask,           XK_comma,       focusmon,        {.i = -1 } },
+	{ SUPERKEY|ShiftMask,           XK_period,      focusmon,        {.i = +1 } },
 	{ MODKEY|ControlMask,           XK_Tab,         focusmon,        {.i = +1 } },
 	{ MODKEY|ShiftMask|ControlMask, XK_Tab,         focusmon,        {.i = -1 } },
 	/*
