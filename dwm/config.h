@@ -114,6 +114,7 @@ static Key keys[] = { // how to get XK_ codes $ script -qefc xev /dev/null|grep 
 	// applications
 	{ SUPERKEY,                     XK_t,           spawn,           {.v = (const char*[]) { "kitty", NULL }} },
 	{ SUPERKEY,                     XK_y,           spawn,           {.v = (const char*[]) { "librewolf", NULL }} },
+	{ SUPERKEY|ShiftMask,           XK_y,           spawn,           {.v = (const char*[]) { "epiphany", NULL }} },
 	{ SUPERKEY,                     XK_k,           spawn,           {.v = (const char*[]) { "keepassxc", NULL }} },
 	{ SUPERKEY,                     XK_m,           spawn,           {.v = (const char*[]) { "virt-manager", NULL }} },
 	// lock
