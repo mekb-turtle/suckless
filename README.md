@@ -7,7 +7,7 @@ used programs in [config.h](https://github.com/mekb-turtle/suckless/blob/main/dw
 - [some things here](https://github.com/mekb-turtle/configs/#readme)
 - dunst (config included [here](https://github.com/mekb-turtle/configs/blob/main/home/mekb/.config/dunst/dunstrc))
 - kitty (config included [here](https://github.com/mekb-turtle/configs/blob/main/home/mekb/.config/kitty/kitty.conf))
-- picom (using [this](https://github.com/pijulius/picom) fork, config included [here](https://github.com/mekb-turtle/configs/blob/main/home/mekb/.config/picom.conf))
+- picom (if you want animations, use [this](https://github.com/pijulius/picom) fork and uncomment the last few lines in the config included [here](https://github.com/mekb-turtle/configs/blob/main/home/mekb/.config/picom.conf))
 - hsetroot
 - caffeine (commented out)
 - volumeicon
