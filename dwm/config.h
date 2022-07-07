@@ -83,7 +83,7 @@ static const char *const autostart[] = {
 	"picom", NULL,
 	"hsetroot", "-solid", "#0a0a0f", NULL,
 	//"caffeine", NULL,
-	"volumeicon", NULL,
+	"volumeicon", "-d", "default", NULL,
 	"flameshot", NULL,
 	"nm-applet", NULL,
 	"xautolock", "-time", "1", "-locker", "slock", NULL,
