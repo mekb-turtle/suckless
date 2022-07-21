@@ -1,2 +1,2 @@
 #!/bin/sh
-"$(dirname "$0")/dmenu_path" | "$(dirname "$0")/dmenu" "$@" | ${SHELL:-"/bin/sh"} &
+dmenu_path | dmenu "$@" | ${SHELL:-"/bin/sh"} &
