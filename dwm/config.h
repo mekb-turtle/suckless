@@ -81,7 +81,7 @@ static const char *const autostart[] = {
 	"dunst", NULL,
 	"kitty", NULL,
 	"picom", NULL,
-	"hsetroot", "-solid", "#0a0a0f", NULL,
+	"bash", "-c", "exec hsetroot -solid '#0a0a0f' -fill $HOME/.wallpaper", NULL,
 	//"caffeine", NULL,
 	"volumeicon", "-d", "default", NULL,
 	"flameshot", NULL,
