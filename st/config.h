@@ -134,6 +134,8 @@ unsigned int defaultbg = 259;
 unsigned int defaultcs = 256;
 static unsigned int defaultrcs = 257;
 
+static unsigned int bold_is_bright = 0;
+
 /*
  * Default shape of cursor
  * 2: Block ("█")
