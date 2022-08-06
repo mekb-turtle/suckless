@@ -68,8 +68,8 @@ static const struct arg args[] = {
 //	{ separator,     " ",           NULL }
 	{ datetime,      "%s - ",       "%Y.%m.%d %a %H.%M.%S" },
 	{ cpu_freq,      "C %s - ",     NULL },
-//	{ cpu_perc,      "C %s%% - ",     NULL },
-	{ ram_used,      "R %s - ",     NULL },
+//	{ cpu_perc,      "C %s%% - ",   NULL },
+	{ ram_used,      "R %s - ",     true },
 //	{ ram_total,     "%s - ",       NULL },
 	{ swap_used,     "S %s - ",     NULL },
 //	{ swap_total,    "%s - ",       NULL },
@@ -77,8 +77,4 @@ static const struct arg args[] = {
 //	{ disk_total,    "%s - ",       "/" },
 	{ battery_perc,  "B %s%%",      "BAT1" },
 	{ battery_state, "%s",          "BAT1" },
-//	{ vol_perc,      "%s",          NULL },
-//	{ run_command,   "V %s",        "pactl get-sink-volume \"$(pactl list short sinks|head -c1)\"|grep '%'|tr ',' '\\n'|sed -r \"s/^.*\\/ +([0-9]{1,3}\\%).*$/\\1/\"" },
-//	{ run_command,   "%s",          "bash -c 'pactl get-sink-mute \"$(pactl list short sinks|head -c1)\"|grep yes >/dev/null&&echo \"m\"'" },
-//	{ run_command,   "%s",          "xfconf-query -c xfce4-notifyd -p /do-not-disturb|grep true >/dev/null&&echo ' - D'" }
 };

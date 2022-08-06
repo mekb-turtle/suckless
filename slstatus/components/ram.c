@@ -1,5 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "../util.h"
 
@@ -23,7 +24,7 @@
 	}
 
 	const char *
-	ram_perc(void)
+	ram_perc(bool true_ram)
 	{
 		uintmax_t total, free, buffers, cached;
 
@@ -41,7 +42,7 @@
 			return NULL;
 		}
 
-		return bprintf("%d", 100 * ((total - free) - (buffers + cached))
+		return bprintf("%d", 100 * (total - free - (true_ram ? 0 : buffers - cached))
                                / total);
 	}
 
@@ -59,7 +60,7 @@
 	}
 
 	const char *
-	ram_used(void)
+	ram_used(bool true_ram)
 	{
 		uintmax_t total, free, buffers, cached;
 
@@ -73,7 +74,7 @@
 			return NULL;
 		}
 
-		return fmt_human((total - free - buffers - cached) * 1024,
+		return fmt_human((total - free - (true_ram ? 0 : buffers - cached)) * 1024,
 		                 1024);
 	}
 #elif defined(__OpenBSD__)
