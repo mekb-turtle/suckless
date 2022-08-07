@@ -83,7 +83,8 @@ static const char *const autostart[] = {
 	"picom", NULL,
 	"bash", "-c", "exec hsetroot -solid '#0a0a0f' -fill $HOME/.wallpaper", NULL,
 	//"caffeine", NULL,
-	"volumeicon", "-d", "default", NULL,
+	//"volumeicon", "-d", "default", NULL,
+	"pnmixer", NULL,
 	"flameshot", NULL,
 	"nm-applet", NULL,
 	"xautolock", "-time", "1", "-locker", "slock", NULL,
@@ -93,15 +94,27 @@ static const char *const autostart[] = {
 	NULL
 };
 
-static const char *decBri[] = { "xbacklight", "-dec", "15", NULL };
-static const char *incBri[] = { "xbacklight", "-inc", "15", NULL };
+static const char *decBri[]  = { "xbacklight", "-dec", "15", NULL };
+static const char *incBri[]  = { "xbacklight", "-inc", "15", NULL };
+static const char *decVol[]  = { "pactl", "set-sink-volume", "0", "-5%",    NULL };
+static const char *incVol[]  = { "pactl", "set-sink-volume", "0", "+5%",    NULL };
+static const char *muteVol[] = { "pactl", "set-sink-mute",   "0", "toggle", NULL };
 static const char *pavu[] = { "pavucontrol", NULL };
 
-static Key keys[] = { // how to get XK_ codes $ script -qefc xev /dev/null|grep keysym\ 0x --color=never
+static Key keys[] = {
+	/* how to get XK_ codes
+	 * $ script -qefc xev /dev/null|grep "keysym 0x" --color=never
+	 * find the part after keysym in brackets
+	 * e.g
+	 * state 0x10, keycode 36 (keysym 0xff0d, Return), same_screen YES,
+	 * Return, then prefix with XK_, so XK_Return */
 	/* modifier                     key             function             argument */
 	// numpad volume/brightness
 	{ SUPERKEY,                     XK_KP_Next,     spawn, {.v = decBri } },
 	{ SUPERKEY,                     XK_KP_Prior,    spawn, {.v = incBri } },
+	{ SUPERKEY,                     XK_KP_Down,     spawn, {.v = decVol } },
+	{ SUPERKEY,                     XK_KP_Up,       spawn, {.v = incVol } },
+	{ SUPERKEY,                     XK_KP_Begin,    spawn, {.v = muteVol } },
 	{ SUPERKEY,                     XK_KP_Right,    spawn, {.v = pavu } },
 	// dmenu run
 	{ SUPERKEY,                     XK_r,           spawn,           {.v = dmenucmd } },
