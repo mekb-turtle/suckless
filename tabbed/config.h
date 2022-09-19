@@ -5,8 +5,8 @@ static const char font[]        = "Ubuntu:size=12";
 
 static const char* normbgcolor  = "#0a0a0f";
 static const char* normfgcolor  = "#ffaaff";
-static const char* selbgcolor   = "#12141f";
-static const char* selfgcolor   = "#8f17d7";
+static const char* selbgcolor   = "#7f09c4";
+static const char* selfgcolor   = "#ffcfff";
 static const char* urgbgcolor   = "#df7f0f";
 static const char* urgfgcolor   = "#ff0f0a";
 static const char before[]      = "<";
@@ -37,8 +37,9 @@ static Bool npisrelative  = True;
 #define MODKEY ControlMask
 static Key keys[] = {
 	/* modifier             key        function     argument */
-	{ MODKEY|ShiftMask,     XK_Return, focusonce,   { 0 } },
-	{ MODKEY|ShiftMask,     XK_Return, spawn,       { 0 } },
+//	{ MODKEY|ShiftMask,     XK_Return, focusonce,   { 0 } },
+	{ MODKEY,               XK_t,      spawn,       { 0 } },
+	{ MODKEY,               XK_w,      killclient,  { 0 } },
 
 	{ MODKEY,               XK_Tab,    rotate,      { .i = +1 } },
 	{ MODKEY|ShiftMask,     XK_Tab,    rotate,      { .i = -1 } },
@@ -59,8 +60,6 @@ static Key keys[] = {
 	{ MODKEY,               XK_8,      move,        { .i = 7 } },
 	{ MODKEY,               XK_9,      move,        { .i = 8 } },
 	{ MODKEY,               XK_0,      move,        { .i = 9 } },
-
-	{ MODKEY|ShiftMask,     XK_q,      killclient,  { 0 } },
 
 	{ MODKEY,               XK_u,      focusurgent, { 0 } },
 	{ MODKEY|ShiftMask,     XK_u,      toggle,      { .v = (void*) &urgentswitch } },
