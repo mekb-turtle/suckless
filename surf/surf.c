@@ -644,25 +644,31 @@ void
 updatetitle(Client *c)
 {
 	char *title;
-	const char *name = c->overtitle ? c->overtitle :
-	                   c->title ? c->title : "";
-
+	char *progress;
+	char *indicators;
+	char *indicatorssep;
+	char *overtitle;
+	char *titlesep;
+	char *title_;
+	if (c->progress != 100) {
+		progress = g_strdup_printf("[%i%%] ", progress);
+	} else progress = g_strdup_printf("");
 	if (curconfig[ShowIndicators].val.i) {
 		gettogglestats(c);
 		getpagestats(c);
-
-		if (c->progress != 100)
-			title = g_strdup_printf("[%i%%] %s:%s | %s",
-			        c->progress, togglestats, pagestats, name);
-		else
-			title = g_strdup_printf("%s:%s | %s",
-			        togglestats, pagestats, name);
-
-		gtk_window_set_title(GTK_WINDOW(c->win), title);
-		g_free(title);
-	} else {
-		gtk_window_set_title(GTK_WINDOW(c->win), name);
-	}
+		indicators = g_strdup_printf("%s:%s", togglestats, pagestats);
+	} else indicators = g_strdup_printf("");
+	indicatorssep = g_strdup_printf(curconfig[ShowIndicators].val.i && (c->title || c->overtitle) ? " | " : "");
+	overtitle     = g_strdup_printf("%s", c->overtitle ? c->overtitle : "");
+	titlesep      = g_strdup_printf(c->title && c->overtitle ? " | " : "");
+	title_        = g_strdup_printf("%s", c->title     ? c->title     : "");
+	title = g_strdup_printf("%s%s%s%s%s%s", progress, indicators, indicatorssep, overtitle, titlesep, title_);
+	gtk_window_set_title(GTK_WINDOW(c->win), title);
+	g_free(progress);
+	g_free(indicators);
+	g_free(overtitle);
+	g_free(title_);
+	g_free(titlesep);
 }
 
 void

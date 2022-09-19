@@ -51,9 +51,10 @@ static Parameter defconfig[ParameterLast] = {
 };
 
 static UriParameters uriparams[] = {
-	{ "(://|\\.)(suckless\\.org|duckduckgo.com)(/|$)", {
+	/*
+	{ "(://)suckless\\.org(/|$)", {
 	  [JavaScript] = { { .i = 0 }, 1 },
-	}, },
+	}, },*/
 };
 
 /* default window size: width, height */
