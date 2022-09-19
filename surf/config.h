@@ -32,7 +32,7 @@ static Parameter defconfig[ParameterLast] = {
 	[HideBackground]      =       { { .i = 0 },     },
 	[Inspector]           =       { { .i = 0 },     },
 	[Java]                =       { { .i = 0 },     },
-	[JavaScript]          =       { { .i = 1 },     },
+	[JavaScript]          =       { { .i = 0 },     },
 	[KioskMode]           =       { { .i = 0 },     },
 	[LoadImages]          =       { { .i = 1 },     },
 	[MediaManualPlay]     =       { { .i = 1 },     },
@@ -51,9 +51,9 @@ static Parameter defconfig[ParameterLast] = {
 };
 
 static UriParameters uriparams[] = {
-/*	{ "(://|\\.)suckless\\.org(/|$)", {
+	{ "(://|\\.)(suckless\\.org|duckduckgo.com)(/|$)", {
 	  [JavaScript] = { { .i = 0 }, 1 },
-	}, },*/
+	}, },
 };
 
 /* default window size: width, height */

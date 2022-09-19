@@ -581,7 +581,7 @@ loaduri(Client *c, const Arg *a)
 			url = g_strdup_printf("file://%s", path);
 			free(path);
 		} else {
-			url = g_strdup_printf("http://%s", uri);
+			url = g_strdup_printf("https://%s", uri);
 		}
 		if (apath != uri)
 			free(apath);
