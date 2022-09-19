@@ -24,7 +24,7 @@
 	}
 
 	const char *
-	ram_perc(bool true_ram)
+	ram_perc(void)
 	{
 		uintmax_t total, free, buffers, cached;
 
@@ -42,7 +42,27 @@
 			return NULL;
 		}
 
-		return bprintf("%d", 100 * (total - free - (true_ram ? 0 : buffers - cached))
+		return bprintf("%d", 100 * (total - free - buffers - cached)
+                               / total);
+	}
+
+	const char *
+	ram_perc_true(void)
+	{
+		uintmax_t total, free;
+
+		if (pscanf("/proc/meminfo",
+		           "MemTotal: %ju kB\n"
+		           "MemFree: %ju kB\n",
+		           &total, &free) != 2) {
+			return NULL;
+		}
+
+		if (total == 0) {
+			return NULL;
+		}
+
+		return bprintf("%d", 100 * (total - free)
                                / total);
 	}
 
@@ -60,7 +80,7 @@
 	}
 
 	const char *
-	ram_used(bool true_ram)
+	ram_used(void)
 	{
 		uintmax_t total, free, buffers, cached;
 
@@ -74,7 +94,23 @@
 			return NULL;
 		}
 
-		return fmt_human((total - free - (true_ram ? 0 : buffers - cached)) * 1024,
+		return fmt_human((total - free - buffers - cached) * 1024,
+		                 1024);
+	}
+
+	const char *
+	ram_used_true(void)
+	{
+		uintmax_t total, free;
+
+		if (pscanf("/proc/meminfo",
+		           "MemTotal: %ju kB\n"
+		           "MemFree: %ju kB\n",
+		           &total, &free) != 2) {
+			return NULL;
+		}
+
+		return fmt_human((total - free) * 1024,
 		                 1024);
 	}
 #elif defined(__OpenBSD__)
@@ -157,6 +193,19 @@
 
 		return NULL;
 	}
+
+	const char *
+	ram_used_true(void)
+	{
+		return ram_used();
+	}
+	}
+
+	const char *
+	ram_perc_true(void)
+	{
+		return ram_perc();
+	}
 #elif defined(__FreeBSD__)
 	#include <sys/sysctl.h>
 	#include <sys/vmmeter.h>
@@ -219,5 +268,16 @@
 			return NULL;
 
 		return fmt_human(active * getpagesize(), 1024);
+	}
+
+	const char *
+	ram_used_true(void) {
+		return ram_used();
+	}
+
+	const char *
+	ram_perc_true(void)
+	{
+		return ram_perc();
 	}
 #endif

@@ -50,8 +50,10 @@ const char *num_files(const char *path);
 /* ram */
 const char *ram_free(void);
 const char *ram_perc(void);
+const char *ram_perc_true(void);
 const char *ram_total(void);
 const char *ram_used(void);
+const char *ram_used_true(void);
 
 /* run_command */
 const char *run_command(const char *cmd);
