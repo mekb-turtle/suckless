@@ -6,6 +6,7 @@ static char *styledir       = "~/.surf/styles/";
 static char *certdir        = "~/.surf/certificates/";
 static char *cachedir       = "~/.surf/cache/";
 static char *cookiefile     = "~/.surf/cookies.txt";
+static char *searchurl      = "https://duckduckgo.com/?q=%s";
 
 /* Webkit default features */
 /* Highest priority value will be used.
@@ -51,10 +52,12 @@ static Parameter defconfig[ParameterLast] = {
 };
 
 static UriParameters uriparams[] = {
-	/*
-	{ "(://)suckless\\.org(/|$)", {
-	  [JavaScript] = { { .i = 0 }, 1 },
-	}, },*/
+	{ "(://)([a-z]+\\.)?suckless\\.org(/|$)", {
+		[JavaScript] = { { .i = 1 }, 1 },
+	}, },
+	{ "(://)(duckduckgo|github)\\.com(/|$)", {
+		[JavaScript] = { { .i = 1 }, 1 },
+	}, },
 };
 
 /* default window size: width, height */

@@ -236,6 +236,7 @@ static void togglefullscreen(Client *c, const Arg *a);
 static void togglecookiepolicy(Client *c, const Arg *a);
 static void toggleinspector(Client *c, const Arg *a);
 static void find(Client *c, const Arg *a);
+static void search(Client *c, const Arg *a);
 
 /* Buttons */
 static void clicknavigate(Client *c, const Arg *a, WebKitHitTestResult *h);
@@ -581,7 +582,9 @@ loaduri(Client *c, const Arg *a)
 			url = g_strdup_printf("file://%s", path);
 			free(path);
 		} else {
-			url = g_strdup_printf("https://%s", uri);
+			bool a = strchr(uri, ' ');
+			bool b = strchr(uri, '/');
+			url = g_strdup_printf(!b || (a && a < b) ? searchurl : "https://%s", uri);
 		}
 		if (apath != uri)
 			free(apath);
