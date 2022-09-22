@@ -127,7 +127,7 @@ static Key keys[] = {
 	// applications
 	{ SUPERKEY,                     XK_t,           spawn,           {.v = (const char*[]) { "kitty", NULL }} },
 	{ SUPERKEY,                     XK_y,           spawn,           {.v = (const char*[]) { "librewolf", NULL }} },
-	{ SUPERKEY|ShiftMask,           XK_y,           spawn,           {.v = (const char*[]) { "tabbed", "surf", "-e", NULL }} },
+	{ SUPERKEY|ShiftMask,           XK_y,           spawn,           {.v = (const char*[]) { "tabbed", "-f", "surf", "-e", NULL }} },
 	{ SUPERKEY,                     XK_k,           spawn,           {.v = (const char*[]) { "keepassxc", NULL }} },
 	{ SUPERKEY,                     XK_m,           spawn,           {.v = (const char*[]) { "virt-manager", NULL }} },
 	// lock
