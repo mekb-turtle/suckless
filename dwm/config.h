@@ -20,8 +20,8 @@ static const char *fonts[]          = { "Ubuntu:size=11" };
 static const char dmenufont[]       = "Ubuntu:size=11";
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
-static const char *alttags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static char *tags[]    = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static char *alttags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const char alturg = 0; // whether to use alt tag if 1 = an urgent window is on that tag, 0 = urgent or non-urgent window is on that tag
 
 static const Rule rules[] = {
@@ -142,6 +142,8 @@ static Key keys[] = {
 	// kill client
 	{ MODKEY|ControlMask,           XK_End,         killclient,      {0} },
 	// tags
+	{ SUPERKEY,                     XK_Tab,         cycletags,       {.i = +1} },
+	{ SUPERKEY|ShiftMask,           XK_Tab,         cycletags,       {.i = -1} },
 	TAGKEYS(                        XK_1,                            0),
 	TAGKEYS(                        XK_2,                            1),
 	TAGKEYS(                        XK_3,                            2),

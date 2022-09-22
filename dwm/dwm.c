@@ -245,6 +245,7 @@ static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
+static void cycletags(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
 static void unmapnotify(XEvent *e);
@@ -2161,6 +2162,27 @@ toggleview(const Arg *arg)
 	unsigned int newtagset = selmon->tagset[selmon->seltags] ^ (arg->ui & TAGMASK);
 
 	if (newtagset) {
+		selmon->tagset[selmon->seltags] = newtagset;
+		focus(NULL);
+		arrange(selmon);
+	}
+}
+
+void
+cycletags(const Arg *arg)
+{
+	if (arg->i == 0) return;
+	unsigned int newtagset = selmon->tagset[selmon->seltags];
+
+	if (newtagset) {
+		unsigned int a = arg->i > 0 ? 1 << (LENGTH(tags) - 1) : 1;
+		unsigned int b = newtagset & a;
+		newtagset &= ~a;
+		if (arg->i > 0)
+			newtagset <<= arg->i;
+		else
+			newtagset >>= -arg->i;
+		if (b) newtagset |= arg->i > 0 ? 1 : 1 << (LENGTH(tags) - 1);
 		selmon->tagset[selmon->seltags] = newtagset;
 		focus(NULL);
 		arrange(selmon);
