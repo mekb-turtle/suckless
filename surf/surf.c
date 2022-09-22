@@ -582,9 +582,17 @@ loaduri(Client *c, const Arg *a)
 			url = g_strdup_printf("file://%s", path);
 			free(path);
 		} else {
-			bool a = strchr(uri, ' ');
-			bool b = strchr(uri, '/');
-			url = g_strdup_printf(!b || (a && a < b) ? searchurl : "https://%s", uri);
+			if (uri[0] == 's' && uri[1] == '/') {
+				url = g_strdup_printf(searchurl, uri+2);
+			} else {
+				bool a = strchr(uri, ' ');
+				bool b = strchr(uri, '/');
+				bool c = strchr(uri, '.');
+				if (a) a = a && (!b || a < b);
+				if (c) c = c && (!b || c < b);
+				url = g_strdup_printf(a || (!b && !c)
+					? searchurl : "https://%s", uri);
+			}
 		}
 		if (apath != uri)
 			free(apath);
