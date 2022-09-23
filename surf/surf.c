@@ -237,12 +237,14 @@ static void togglecookiepolicy(Client *c, const Arg *a);
 static void toggleinspector(Client *c, const Arg *a);
 static void find(Client *c, const Arg *a);
 static void search(Client *c, const Arg *a);
+static void downloadcurrentpage(Client *c, const Arg *a);
 
 /* Buttons */
 static void clicknavigate(Client *c, const Arg *a, WebKitHitTestResult *h);
 static void clicknewwindow(Client *c, const Arg *a, WebKitHitTestResult *h);
 static void clickexternplayer(Client *c, const Arg *a, WebKitHitTestResult *h);
 
+WebKitURIResponse *res = NULL;
 static char winid[64];
 static char togglestats[11];
 static char pagestats[2];
@@ -561,6 +563,7 @@ newclient(Client *rc)
 void
 loaduri(Client *c, const Arg *a)
 {
+	res = NULL;
 	struct stat st;
 	char *url, *path, *apath;
 	const char *uri = a->v;
@@ -598,6 +601,7 @@ loaduri(Client *c, const Arg *a)
 			free(apath);
 	}
 
+	res = NULL;
 	setatom(c, AtomUri, url);
 
 	if (strcmp(url, geturi(c)) == 0) {
@@ -1722,8 +1726,7 @@ decideresource(WebKitPolicyDecision *d, Client *c)
 {
 	int i, isascii = 1;
 	WebKitResponsePolicyDecision *r = WEBKIT_RESPONSE_POLICY_DECISION(d);
-	WebKitURIResponse *res =
-	    webkit_response_policy_decision_get_response(r);
+	res = webkit_response_policy_decision_get_response(r);
 	const gchar *uri = webkit_uri_response_get_uri(res);
 
 	if (g_str_has_suffix(uri, "/favicon.ico")) {
@@ -1750,7 +1753,7 @@ decideresource(WebKitPolicyDecision *d, Client *c)
 			return;
 		}
 	}
-
+	
 	if (webkit_response_policy_decision_is_mime_type_supported(r)) {
 		webkit_policy_decision_use(d);
 	} else {
@@ -1775,8 +1778,17 @@ downloadstarted(WebKitWebContext *wc, WebKitDownload *d, Client *c)
 void
 responsereceived(WebKitDownload *d, GParamSpec *ps, Client *c)
 {
-	download(c, webkit_download_get_response(d));
+	res = webkit_download_get_response(d);
+	download(c, res);
 	webkit_download_cancel(d);
+}
+
+void
+downloadcurrentpage(Client *c, const Arg *a)
+{
+	if (res) {
+		download(c, res);
+	}
 }
 
 void

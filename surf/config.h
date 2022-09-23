@@ -71,23 +71,24 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
 
 /* SETPROP(readprop, setprop, prompt)*/
 #define SETPROP(r, s, p) { \
-        .v = (const char *[]){ "/bin/sh", "-c", \
-             "prop=\"$(printf '%b' \"$(xprop -id $1 "r" " \
-             "| sed -e 's/^"r"(UTF8_STRING) = \"\\(.*\\)\"/\\1/' " \
-             "      -e 's/\\\\\\(.\\)/\\1/g')\" " \
-             "| dmenu -p '"p"' -w $1)\" " \
-             "&& xprop -id $1 -f "s" 8u -set "s" \"$prop\"", \
-             "surf-setprop", winid, NULL \
-        } \
+	.v = (const char *[]){ "/bin/sh", "-c", \
+	"prop=\"$(printf '%b' \"$(xprop -id $1 "r" " \
+	"| sed -e 's/^"r"(UTF8_STRING) = \"\\(.*\\)\"/\\1/' " \
+	"      -e 's/\\\\\\(.\\)/\\1/g')\" " \
+	"| dmenu -p '"p"' -w $1)\" " \
+	"&& xprop -id $1 -f "s" 8u -set "s" \"$prop\"", \
+	"surf-setprop", winid, NULL \
+	} \
 }
 
 /* DOWNLOAD(URI, referer) */
 #define DOWNLOAD(u, r) { \
-        .v = (const char *[]){ "kitty", "/bin/sh", "-c",\
-             "curl -g -L -J -O -A \"$1\" -b \"$2\" -c \"$2\"" \
-             " -e \"$3\" \"$4\"; read", \
-             "surf-download", useragent, cookiefile, r, u, NULL \
-        } \
+	.v = (const char *[]){ "aria2-delegate",\
+	"--rpc", "http://127.1:16800/jsonrpc",\
+	"--header.User-Agent", useragent,\
+	"--header.Referer", r,\
+	u, NULL\
+	} \
 }
 
 /* PLUMB(URI) */
@@ -95,14 +96,14 @@ static WebKitFindOptions findopts = WEBKIT_FIND_OPTIONS_CASE_INSENSITIVE |
  * "http://" or "https://" should be opened.
  */
 #define PLUMB(u) {\
-        .v = (const char *[]){ "/bin/sh", "-c", \
-             "xdg-open \"$0\"", u, NULL \
-        } \
+	.v = (const char *[]){ "/bin/sh", "-c", \
+	"xdg-open \"$0\"", u, NULL \
+	} \
 }
 
 /* VIDEOPLAY(URI) */
 #define VIDEOPLAY(u) {\
-        .v = (const char *[]){ "/bin/mpv", "--", u } \
+	.v = (const char *[]){ "/bin/mpv", "--", u } \
 }
 
 /* styles */
@@ -140,6 +141,8 @@ static Key keys[] = {
 
 	{ 0,                     GDK_KEY_Escape, stop,       { 0 } },
 	{ MODKEY,                GDK_KEY_c,      stop,       { 0 } },
+
+	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_s,      downloadcurrentpage, { .i = 1 } },
 
 	{ 0,                     GDK_KEY_F5,     reload,     { .i = 1 } },
 	{ MODKEY|GDK_SHIFT_MASK, GDK_KEY_r,      reload,     { .i = 1 } },
