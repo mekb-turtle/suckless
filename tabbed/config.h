@@ -21,7 +21,7 @@ static       Bool urgentswitch  = False;
  * then the current position is changed + newposition. If npisrelative
  * is False, then newposition is an absolute position.
  */
-static int  newposition   = 0;
+static int  newposition   = 1;
 static Bool npisrelative  = True;
 
 #define SETPROP(p) { \
