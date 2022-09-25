@@ -135,6 +135,7 @@ static Key keys[] = {
 	// lock
 	{ SUPERKEY,                     XK_l,           spawn,           {.v = (const char*[]) { "slock", NULL }} },
 	// screenshot
+	{ SUPERKEY,                     XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c" "exec $HOME/.bin/screenshot", NULL }} }, // https://gist.github.com/mekb-turtle/169b6fb03627bdff40bbddfe9e1de70b
 	{ 0,                            XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "gui", NULL }} },
 	{ ShiftMask,                    XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "launcher", NULL }} },
 	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/flameshot_window", NULL }} }, // https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2
