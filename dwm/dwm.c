@@ -776,7 +776,7 @@ labelmon(Monitor* m, const char* sym)
 		if (n2 > n1)
 			sprintf(a, "%i/%i %s", n1, n2, sym);
 		else*/
-		sprintf(a, "%i %s", n1, sym);
+		sprintf(a, "%i %i %s", n1, m->nmaster, sym);
 	} else sprintf(a, "%s", sym);
 	strncpy(m->ltsymbol, a, sizeof m->ltsymbol);
 }
