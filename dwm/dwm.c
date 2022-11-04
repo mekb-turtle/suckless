@@ -204,6 +204,7 @@ static void grabkeys(void);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
+static void togglefullscreen(const Arg *arg);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -1271,6 +1272,15 @@ killclient(const Arg *arg)
 }
 
 void
+togglefullscreen(const Arg *arg)
+{
+	if (!selmon->sel)
+		return;
+
+	setfullscreen(selmon->sel, !selmon->sel->isfullscreen);
+}
+
+void
 manage(Window w, XWindowAttributes *wa)
 {
 	Client *c, *t = NULL;
@@ -1406,8 +1416,8 @@ movemouse(const Arg *arg)
 
 	if (!(c = selmon->sel))
 		return;
-	if (c->isfullscreen) /* no support moving fullscreen windows by mouse */
-		return;
+	//if (c->isfullscreen) /* no support moving fullscreen windows by mouse */
+	//	return;
 	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
@@ -1603,8 +1613,8 @@ resizemouse(const Arg *arg)
 
 	if (!(c = selmon->sel))
 		return;
-	if (c->isfullscreen) /* no support resizing fullscreen windows by mouse */
-		return;
+	//if (c->isfullscreen) /* no support resizing fullscreen windows by mouse */
+	//	return;
 	restack(selmon);
 	ocx = c->x;
 	ocy = c->y;
@@ -1996,7 +2006,7 @@ showhide(Client *c)
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
 		XMoveWindow(dpy, c->win, c->x, c->y);
-		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
+		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating))// && !c->isfullscreen)
 			resize(c, c->x, c->y, c->w, c->h, 0);
 		showhide(c->snext);
 	} else {
@@ -2132,8 +2142,8 @@ togglefloating(const Arg *arg)
 {
 	if (!selmon->sel)
 		return;
-	if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
-		return;
+	//if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
+	//	return;
 	selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
 	if (selmon->sel->isfloating)
 		resize(selmon->sel, selmon->sel->x, selmon->sel->y,

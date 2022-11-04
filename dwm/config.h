@@ -36,6 +36,7 @@ static const Rule rules[] = {
 	{ "Motrix",        NULL,       NULL,       1 << (LENGTH(tags)-2),   0,           1 },
 	{ "PrismLauncher", NULL,       NULL,       1 << (LENGTH(tags)-3),   0,           1 },
 	{ "Tk",            "Logout",   NULL,       TAGMASK,                 1,           0 },
+	{ "Steam",         NULL,       NULL,       1 << (LENGTH(tags)-4),   1,           1 },
 };
 
 /* layout(s) */
@@ -208,30 +209,32 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask                    button          function        argument */
 	// click layout in panel to toggle previous
-	{ ClkLtSymbol,          0,                            Button1,        setlayout,      {0} },
+	{ ClkLtSymbol,          0,                            Button1,        setlayout,        {0} },
 	// move window
-	{ ClkClientWin,         SUPERKEY,                     Button1,        movemouse,      {0} },
+	{ ClkClientWin,         SUPERKEY,                     Button1,        movemouse,        {0} },
 	// resize window
-	{ ClkClientWin,         SUPERKEY,                     Button3,        resizemouse,    {0} },
+	{ ClkClientWin,         SUPERKEY,                     Button3,        resizemouse,      {0} },
+	// force toggle fullscreen
+	{ ClkClientWin,         SUPERKEY|MODKEY,              Button1,        togglefullscreen, {0} },
 	// toggle floating
-	{ ClkClientWin,         SUPERKEY|ControlMask,         Button1,        togglefloating, {0} },
-	{ ClkClientWin,         SUPERKEY,                     Button2,        togglefloating, {0} },
+	{ ClkClientWin,         SUPERKEY|ControlMask,         Button1,        togglefloating,   {0} },
+	{ ClkClientWin,         SUPERKEY,                     Button2,        togglefloating,   {0} },
 	// kill window
-	{ ClkClientWin,         MODKEY|ControlMask,           Button3,        killclient,     {0} },
+	{ ClkClientWin,         MODKEY|ControlMask,           Button3,        killclient,       {0} },
 	// tags
-	{ ClkTagBar,            0,                            Button1,        view,           {0} },
-	{ ClkTagBar,            ControlMask,                  Button1,        toggleview,     {0} },
-	{ ClkTagBar,            ShiftMask,                    Button1,        tag,            {0} },
-	{ ClkTagBar,            ShiftMask,                    Button1,        view,           {0} },
-	{ ClkTagBar,            ControlMask|ShiftMask,        Button1,        toggletag,      {0} },
+	{ ClkTagBar,            0,                            Button1,        view,             {0} },
+	{ ClkTagBar,            ControlMask,                  Button1,        toggleview,       {0} },
+	{ ClkTagBar,            ShiftMask,                    Button1,        tag,              {0} },
+	{ ClkTagBar,            ShiftMask,                    Button1,        view,             {0} },
+	{ ClkTagBar,            ControlMask|ShiftMask,        Button1,        toggletag,        {0} },
 	// cycle window
-	{ ClkWinTitle,          0,                            Button1,        focusstack,     {.i = +1} },
-	{ ClkWinTitle,          ShiftMask,                    Button1,        focusstack,     {.i = -1} },
+	{ ClkWinTitle,          0,                            Button1,        focusstack,       {.i = +1} },
+	{ ClkWinTitle,          ShiftMask,                    Button1,        focusstack,       {.i = -1} },
 	// switch window
-	{ ClkWinTitle,          ControlMask,                  Button1,        zoom,           {0} },
+	{ ClkWinTitle,          ControlMask,                  Button1,        zoom,             {0} },
 	/*
-	{ ClkLtSymbol,          0,                            Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkStatusText,        0,                            Button2,        spawn,          {.v = termcmd } },
+	{ ClkLtSymbol,          0,                            Button3,        setlayout,        {.v = &layouts[2]} },
+	{ ClkStatusText,        0,                            Button2,        spawn,            {.v = termcmd } },
 	*/
 };
 
