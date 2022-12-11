@@ -37,6 +37,7 @@ static const Rule rules[] = {
 	{ "PrismLauncher", NULL,       NULL,       1 << (LENGTH(tags)-3),   0,           1 },
 	{ "Tk",            "Logout",   NULL,       TAGMASK,                 1,           0 },
 	{ "Steam",         NULL,       NULL,       1 << (LENGTH(tags)-4),   1,           1 },
+	{ "blobdrop",      NULL,       NULL,       0,                       1,           -1 },
 };
 
 /* layout(s) */
