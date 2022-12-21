@@ -30,14 +30,16 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class           instance    title       tags mask                isfloating   monitor */
-//	{ "Gimp",          NULL,       NULL,       0,                       1,           -1 },
-	{ "Librewolf",     NULL,       NULL,       0,                       0,           -1 },
-	{ "Ripcord",       NULL,       NULL,       1 << (LENGTH(tags)-1),   0,           1 },
-	{ "Motrix",        NULL,       NULL,       1 << (LENGTH(tags)-2),   0,           1 },
-	{ "PrismLauncher", NULL,       NULL,       1 << (LENGTH(tags)-3),   0,           1 },
-	{ "Tk",            "Logout",   NULL,       TAGMASK,                 1,           0 },
-	{ "Steam",         NULL,       NULL,       1 << (LENGTH(tags)-4),   1,           1 },
-	{ "blobdrop",      NULL,       NULL,       0,                       1,           -1 },
+//	{ "Gimp",           NULL,       NULL,       0,                       1,           -1 },
+	{ "Librewolf",      NULL,       NULL,       0,                       0,           -1 },
+	{ "Ripcord",        NULL,       NULL,       1 << (LENGTH(tags)-1),   0,           1 },
+	{ "discord",        NULL,       NULL,       1 << (LENGTH(tags)-2),   0,           1 },
+//	{ "Motrix",         NULL,       NULL,       1 << (LENGTH(tags)-2),   0,           1 },
+	{ "PrismLauncher",  NULL,       NULL,       1 << (LENGTH(tags)-3),   0,           1 },
+	{ "Tk",             "Logout",   NULL,       TAGMASK,                 1,           0 },
+	{ "Steam",          NULL,       NULL,       1 << (LENGTH(tags)-4),   1,           1 },
+	{ "blobdrop",       NULL,       NULL,       0,                       1,           -1 },
+	{ "Pinentry-gtk-2", NULL,       NULL,       0,                       1,           -1 },
 };
 
 /* layout(s) */
@@ -69,25 +71,22 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/bash", "-c", cmd, NULL } }
 
 /* commands */
-static const char color[]                     = "#0a0a0f"; // #444444
-static const char color_selected[]            = "#7f09c4";
-static const char color_border[]              = "#12141f";
-static const char color_border_selected[]     = "#8f17d7";
-static const char color_panel_text[]          = "#ffaaff";
-static const char color_panel_text_selected[] = "#ffcfff";
 static const char *colors[][3]      = {
-	/*               fg                         bg              border   */
+	[SchemeNorm] = { "#cdd6f4", "#1e1e2e", "#181825" },
+	[SchemeSel]  = { "#1e1e2e", "#f5c2e7", "#f5c2e7" },
+	/*               fg                         bg              border   
 	[SchemeNorm] = { color_panel_text,          color,          color_border },
 	[SchemeSel]  = { color_panel_text_selected, color_selected, color_border_selected },
+	*/
 };
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", color, "-nf", color_panel_text, "-sb", color_selected, "-sf", color_panel_text_selected, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 
 static const char *const autostart[] = {
 	"dunst", NULL,
 	"kitty", NULL,
 	"picom", NULL,
-	"bash", "-c", "exec hsetroot -solid '#0a0a0f' -fill $HOME/.wallpaper", NULL,
+	"bash", "-c", "exec hsetroot -solid '#1e1e2e' -fill $HOME/.wallpaper", NULL,
 	//"caffeine", NULL,
 	//"volumeicon", "-d", "default", NULL,
 	"pnmixer", NULL,

@@ -73,8 +73,8 @@ static const struct arg args[] = {
 //	{ ram_total,     "%s - ",       NULL },
 	{ swap_used,     "S %s - ",     NULL },
 //	{ swap_total,    "%s - ",       NULL },
-	{ disk_used,     "D %s - ",     "/" },
-//	{ disk_total,    "%s - ",       "/" },
-	{ battery_perc,  "B %s%%",      "BAT1" },
-	{ battery_state, "%s",          "BAT1" },
+	{ disk_used,     "D %s",        "/" },
+//	{ disk_total,    "%s",          "/" },
+//	{ battery_perc,  "B %s%%",      "BAT1" },
+//	{ battery_state, "%s",          "BAT1" },
 };
