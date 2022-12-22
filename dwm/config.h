@@ -124,7 +124,7 @@ static Key keys[] = {
 	// dmenu run
 	{ SUPERKEY,                     XK_r,           spawn,           {.v = dmenucmd } },
 	// clear clipboard
-	{ SUPERKEY,                     XK_space,       spawn,           {.v = (const char*[]) { "clip", "clear", NULL }} },
+	{ SUPERKEY,                     XK_space,       spawn,           {.v = (const char*[]) { "bash", "-c", "true | xclip -selection clipboard -i", NULL }} },
 	// notifications
 	{ ControlMask,                  XK_Pause,       spawn,           {.v = (const char*[]) { "dunstctl", "set-paused", "toggle", NULL }} },
 	{ SUPERKEY,                     XK_q,           spawn,           {.v = (const char*[]) { "dunstctl", "history-pop", NULL }} },
