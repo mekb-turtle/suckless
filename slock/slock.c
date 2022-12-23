@@ -18,6 +18,7 @@
 #include <X11/keysym.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <Imlib2.h>
 #include <X11/XKBlib.h>
 
 #include "arg.h"
@@ -37,8 +38,11 @@ struct lock {
 	int screen;
 	Window root, win;
 	Pixmap pmap;
+	Pixmap bgmaps[NUMCOLS];
 	unsigned long colors[NUMCOLS];
 };
+
+Imlib_Image images[NUMCOLS];
 
 struct xrandr {
 	int active;
@@ -199,9 +203,10 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 			color = len ? (caps ? CAPS : INPUT) : ((failure || failonclear) ? FAILED : INIT);
 			if (running && oldc != color) {
 				for (screen = 0; screen < nscreens; screen++) {
-					XSetWindowBackground(dpy,
-					                     locks[screen]->win,
-					                     locks[screen]->colors[color]);
+					if (locks[screen]->bgmaps[color])
+						XSetWindowBackgroundPixmap(dpy, locks[screen]->win, locks[screen]->bgmaps[color]);
+					else
+						XSetWindowBackground(dpy, locks[screen]->win, locks[screen]->colors[color]);
 					XClearWindow(dpy, locks[screen]->win);
 				}
 				oldc = color;
@@ -244,6 +249,17 @@ lockscreen(Display *dpy, struct xrandr *rr, int screen)
 	lock->screen = screen;
 	lock->root = RootWindow(dpy, lock->screen);
 
+	imlib_context_set_display(dpy);
+	imlib_context_set_visual(DefaultVisual(dpy, lock->screen));
+	imlib_context_set_colormap(DefaultColormap(dpy, lock->screen));
+	for (i = 0; i < NUMCOLS; ++i) {
+		imlib_context_set_image(images[i]);
+		lock->bgmaps[i] = XCreatePixmap(dpy, lock->root, DisplayWidth(dpy, lock->screen), DisplayHeight(dpy, lock->screen), DefaultDepth(dpy, lock->screen));
+		imlib_context_set_drawable(lock->bgmaps[i]);
+		imlib_render_image_on_drawable(0, 0);
+	}
+	imlib_free_image();
+
 	for (i = 0; i < NUMCOLS; i++) {
 		XAllocNamedColor(dpy, DefaultColormap(dpy, lock->screen),
 		                 colorname[i], &color, &dummy);
@@ -260,6 +276,8 @@ lockscreen(Display *dpy, struct xrandr *rr, int screen)
 	                          CopyFromParent,
 	                          DefaultVisual(dpy, lock->screen),
 	                          CWOverrideRedirect | CWBackPixel, &wa);
+	if(lock->bgmaps[INIT])
+		XSetWindowBackgroundPixmap(dpy, lock->win, lock->bgmaps[INIT]);
 	lock->pmap = XCreateBitmapFromData(dpy, lock->win, curs, 8, 8);
 	invisible = XCreatePixmapCursor(dpy, lock->pmap, lock->pmap,
 	                                &color, &color, 0, 0);
@@ -323,7 +341,8 @@ main(int argc, char **argv) {
 	uid_t duid;
 	gid_t dgid;
 	const char *hash;
-	int s, nlocks, nscreens;
+	int i, s, nlocks, nscreens;
+	Imlib_Image buffer;
 
 	ARGBEGIN {
 	case 'v':
@@ -365,6 +384,37 @@ main(int argc, char **argv) {
 	if (setuid(duid) < 0)
 		die("slock: setuid: %s\n", strerror(errno));
 
+	/* Load picture */
+	for (i = 0; i < NUMCOLS; ++i) {
+		if (background_images[i]) {
+			buffer = imlib_load_image(background_images[i]);
+			if (buffer) {
+				imlib_context_set_image(buffer);
+				int background_image_width = imlib_image_get_width();
+				int background_image_height = imlib_image_get_height();
+
+				/* Create an image to be rendered */
+				Screen *scr = ScreenOfDisplay(dpy, DefaultScreen(dpy));
+				images[i] = imlib_create_image(scr->width, scr->height);
+				imlib_context_set_image(images[i]);
+
+				/* Fill the image for every X monitor */
+				XRRMonitorInfo	*monitors;
+				int number_of_monitors;
+				monitors = XRRGetMonitors(dpy, RootWindow(dpy, XScreenNumberOfScreen(scr)), True, &number_of_monitors);
+
+				int o;
+				for (o = 0; o < number_of_monitors; o++) {
+					imlib_blend_image_onto_image(buffer, 0, 0, 0, background_image_width, background_image_height, monitors[o].x, monitors[o].y, monitors[o].width, monitors[o].height);
+				}
+
+				/* Clean up */
+				imlib_context_set_image(buffer);
+				imlib_free_image();
+			}
+		}
+	}
+
 	/* check for Xrandr support */
 	rr.active = XRRQueryExtension(dpy, &rr.evbase, &rr.errbase);
 
@@ -380,7 +430,7 @@ main(int argc, char **argv) {
 		}
 	}
 	XSync(dpy, 0);
-	
+
 	/* did we manage to lock everything? */
 	if (nlocks != nscreens)
 		return 1;

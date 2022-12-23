@@ -22,7 +22,7 @@ ${OBJ}: config.h config.mk arg.h util.h
 
 config.h:
 	@echo creating $@ from config.def.h
-	@cp config.def.h $@
+	@cp config.def.h $@ || true
 
 slock: ${OBJ}
 	@echo CC -o $@
@@ -46,8 +46,8 @@ install: all
 	@mkdir -p ${DESTDIR}${PREFIX}/bin
 	@cp -f slock ${DESTDIR}${PREFIX}/bin
 	@chmod 755 ${DESTDIR}${PREFIX}/bin/slock
-	@doas chown root ${DESTDIR}${PREFIX}/bin/slock || true
-	@doas chmod u+s ${DESTDIR}${PREFIX}/bin/slock || true
+	@doas chown root ${DESTDIR}${PREFIX}/bin/slock
+	@doas chmod u+s ${DESTDIR}${PREFIX}/bin/slock
 	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	@sed "s/VERSION/${VERSION}/g" <slock.1 >${DESTDIR}${MANPREFIX}/man1/slock.1

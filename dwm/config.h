@@ -121,14 +121,16 @@ static Key keys[] = {
 	{ SUPERKEY,                     XK_KP_Up,       spawn, {.v = incVol } },
 	{ SUPERKEY,                     XK_KP_Begin,    spawn, {.v = muteVol } },
 	{ SUPERKEY,                     XK_KP_Right,    spawn, {.v = pavu } },
+	// emoji
+	{ SUPERKEY,                     XK_a,           spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/emojipicker/emoji", NULL }} }, // https://github.com/mekb-turtle/emojipicker
 	// dmenu run
 	{ SUPERKEY,                     XK_r,           spawn,           {.v = dmenucmd } },
 	// clear clipboard
 	{ SUPERKEY,                     XK_space,       spawn,           {.v = (const char*[]) { "bash", "-c", "true | xclip -selection clipboard -i", NULL }} },
 	// notifications
 	{ ControlMask,                  XK_Pause,       spawn,           {.v = (const char*[]) { "dunstctl", "set-paused", "toggle", NULL }} },
-	{ SUPERKEY,                     XK_q,           spawn,           {.v = (const char*[]) { "dunstctl", "history-pop", NULL }} },
-	{ SUPERKEY|ShiftMask,           XK_q,           spawn,           {.v = (const char*[]) { "dunstctl", "close-all", NULL }} },
+	{ SUPERKEY,                     XK_z,           spawn,           {.v = (const char*[]) { "dunstctl", "history-pop", NULL }} },
+	{ SUPERKEY|ShiftMask,           XK_z,           spawn,           {.v = (const char*[]) { "dunstctl", "close-all", NULL }} },
 	// applications
 	{ SUPERKEY,                     XK_t,           spawn,           {.v = (const char*[]) { "kitty", NULL }} },
 	{ SUPERKEY,                     XK_y,           spawn,           {.v = (const char*[]) { "librewolf", NULL }} },
@@ -159,6 +161,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                            6),
 	TAGKEYS(                        XK_8,                            7),
 	TAGKEYS(                        XK_9,                            8),
+	TAGKEYS(                        XK_q,                            6),
+	TAGKEYS(                        XK_w,                            7),
+	TAGKEYS(                        XK_e,                            8),
 	// toggle bar
 	{ SUPERKEY,                     XK_b,           togglebar,       {0} },
 	// arrange window
