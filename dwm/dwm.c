@@ -913,7 +913,7 @@ drawbar(Monitor *m)
 		w = TEXTW(tagtext);
 		char flash = 1;//get_flash();
 		char invert = (urg & 1 << i) && flash;
-		char selected = m->tagset[m->seltags] & 1 << i;
+		char selected = (m->tagset[m->seltags] & (1 << i)) > 0;
 		if (selected) invert = 0;
  		drw_setscheme(drw, scheme[selected ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tagtext, invert);
