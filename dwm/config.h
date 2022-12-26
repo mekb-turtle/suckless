@@ -37,7 +37,7 @@ static const Rule rules[] = {
 //	{ "Motrix",         NULL,       NULL,       1 << (LENGTH(tags)-2),   0,           1 },
 	{ "PrismLauncher",  NULL,       NULL,       1 << (LENGTH(tags)-3),   0,           1 },
 	{ "Tk",             "Logout",   NULL,       TAGMASK,                 1,           0 },
-	{ "Steam",          NULL,       NULL,       1 << (LENGTH(tags)-4),   1,           1 },
+	{ "Steam",          NULL,       NULL,       1 << (LENGTH(tags)-4),   1,           0 },
 	{ "blobdrop",       NULL,       NULL,       0,                       1,           -1 },
 	{ "Pinentry-gtk-2", NULL,       NULL,       0,                       1,           -1 },
 };
