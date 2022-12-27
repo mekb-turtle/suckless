@@ -72,7 +72,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static const char *colors[][3]      = {
-	[SchemeNorm] = { "#cdd6f4", "#1e1e2e", "#181825" },
+	[SchemeNorm] = { "#cdd6f4", "#1e1e2e", "#1e1e2e" },
 	[SchemeSel]  = { "#1e1e2e", "#f5c2e7", "#f5c2e7" },
 	/*               fg                         bg              border   
 	[SchemeNorm] = { color_panel_text,          color,          color_border },
