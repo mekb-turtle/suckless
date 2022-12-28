@@ -69,7 +69,7 @@ static const struct arg args[] = {
 	{ datetime,      "%s - ",       "%Y.%m.%d %a %H.%M.%S" },
 	{ cpu_freq,      "C %s - ",     NULL },
 //	{ cpu_perc,      "C %s%% - ",   NULL },
-	{ ram_used_true, "R %s - ",     NULL },
+	{ ram_used,      "R %s - ",     NULL },
 //	{ ram_total,     "%s - ",       NULL },
 	{ swap_used,     "S %s - ",     NULL },
 //	{ swap_total,    "%s - ",       NULL },
