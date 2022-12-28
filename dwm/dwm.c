@@ -182,6 +182,7 @@ static void configure(Client *c);
 static void configurenotify(XEvent *e);
 static void configurerequest(XEvent *e);
 static Monitor *createmon(void);
+static void cyclelayout(const Arg *arg);
 static void destroynotify(XEvent *e);
 static void detach(Client *c);
 static void detachstack(Client *c);
@@ -799,6 +800,19 @@ createmon(void)
 	labelmon(m, layouts[0].symbol);
 	//strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
 	return m;
+}
+
+// from https://git.sr.ht/~mil/sxmo-dwm - dwm.c - void cyclelayout
+void
+cyclelayout(const Arg *arg) {
+	int i;
+	Arg a;
+
+	for(i = 0; i < LENGTH(layouts) && &layouts[i] != selmon->lt[selmon->sellt]; i++);
+	if(arg->i > 0) {
+		a.v = &layouts[i + 1 < LENGTH(layouts) ? i + 1 : 0];
+		setlayout(&a);
+	}
 }
 
 void

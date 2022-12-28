@@ -181,11 +181,11 @@ static Key keys[] = {
 	{ SUPERKEY|ControlMask,         XK_Left,        setmfact,        {.f = -0.0025} },
 	{ SUPERKEY|ControlMask,         XK_Right,       setmfact,        {.f = +0.0025} },
 	// switch layout
-	{ MODKEY|ControlMask,           XK_space,       setlayout,       {0} },
-	{ MODKEY|ControlMask,           XK_1,           setlayout,       {.v = &layouts[0]} },
-	{ MODKEY|ControlMask,           XK_2,           setlayout,       {.v = &layouts[1]} },
-	{ MODKEY|ControlMask,           XK_3,           setlayout,       {.v = &layouts[2]} },
-	{ MODKEY|ControlMask,           XK_4,           setlayout,       {.v = &layouts[3]} },
+	{ SUPERKEY|MODKEY,              XK_space,       cyclelayout,     {.i = +1} },
+	{ SUPERKEY|MODKEY,              XK_1,           setlayout,       {.v = &layouts[0]} },
+	{ SUPERKEY|MODKEY,              XK_2,           setlayout,       {.v = &layouts[1]} },
+	{ SUPERKEY|MODKEY,              XK_3,           setlayout,       {.v = &layouts[2]} },
+	{ SUPERKEY|MODKEY,              XK_4,           setlayout,       {.v = &layouts[3]} },
 	// mon
 	{ SUPERKEY,                     XK_comma,       focusmon,        {.i = -1 } },
 	{ SUPERKEY,                     XK_period,      focusmon,        {.i = +1 } },
@@ -214,7 +214,7 @@ static Key keys[] = {
 static Button buttons[] = {
 	/* click                event mask                    button          function        argument */
 	// click layout in panel to toggle previous
-	{ ClkLtSymbol,          0,                            Button1,        setlayout,        {0} },
+	{ ClkLtSymbol,          0,                            Button1,        cyclelayout,      {.i = +1} },
 	// move window
 	{ ClkClientWin,         SUPERKEY,                     Button1,        movemouse,        {0} },
 	// resize window
