@@ -2,13 +2,12 @@
 
 /* appearance */
 static const char font[]        = "Ubuntu:size=12";
-
-static const char* normbgcolor  = "#0a0a0f";
-static const char* normfgcolor  = "#ffaaff";
-static const char* selbgcolor   = "#7f09c4";
-static const char* selfgcolor   = "#ffcfff";
-static const char* urgbgcolor   = "#df7f0f";
-static const char* urgfgcolor   = "#ff0f0a";
+static const char* normbgcolor  = "#1e1e2e";
+static const char* normfgcolor  = "#cdd6f4";
+static const char* selbgcolor   = "#f5c2e7";
+static const char* selfgcolor   = "#1e1e2e";
+static const char* urgbgcolor   = "#cdd6f4";
+static const char* urgfgcolor   = "#1e1e2e";
 static const char before[]      = "<";
 static const char after[]       = ">";
 static const char titletrim[]   = "...";
