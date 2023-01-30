@@ -20,5 +20,5 @@ used programs in [config.h](https://github.com/mekb-turtle/suckless/blob/main/dw
 - librewolf (might want to change to your preferred)
 - keepassxc (might want to change to your preferred)
 - [$HOME/.bin/misc/flameshot_window $HOME/.bin/misc/colorpickernotify](https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2)
-- [$HOME/.bin/misc/shutdownprompt/shutdownprompt.py](https://github.com/mekb-turtle/shutdownprompt/blob/main/shutdownprompt.py) (requires tk and python)
+- [$HOME/.bin/power](https://gist.github.com/mekb-turtle/909737b9bff3a8df4da04b7b1319968b) (uses rofi)
 - [$HOME/.bin/emojipicker/emoji](https://github.com/mekb-turtle/emojipicker)
