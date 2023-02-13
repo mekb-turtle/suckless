@@ -12,6 +12,9 @@ static const char *colorname[NUMCOLS] = {
 /* treat a cleared input like a wrong password (color) */
 static const int failonclear = 0;
 
+/* removes failure colour on backspace */
+static const int unfailonbackspace = 1;
+
 /* Background image path, should be available to the user above */
 static const char *background_images[NUMCOLS] = {
 	[INIT] =   "/usr/share/backgrounds/waves/waves_base.png",      /* after initialization */

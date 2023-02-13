@@ -186,6 +186,7 @@ readpw(Display *dpy, struct xrandr *rr, struct lock **locks, int nscreens,
 				len = 0;
 				break;
 			case XK_BackSpace:
+				if (unfailonbackspace) failure = 0;
 				if (len)
 					passwd[--len] = '\0';
 				break;
