@@ -85,7 +85,7 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
 static const char *const autostart[] = {
 	"dunst", NULL,
 	"kitty", NULL,
-	"picom", NULL,
+	//"picom", NULL,
 	"bash", "-c", "exec hsetroot -solid '#1e1e2e' -fill $HOME/.wallpaper", NULL,
 	//"caffeine", NULL,
 	//"volumeicon", "-d", "default", NULL,
@@ -128,7 +128,7 @@ static Key keys[] = {
 	// clear clipboard
 	{ SUPERKEY,                     XK_space,       spawn,           {.v = (const char*[]) { "bash", "-c", "true | xclip -selection clipboard -i", NULL }} },
 	// notifications
-	{ ControlMask,                  XK_Pause,       spawn,           {.v = (const char*[]) { "dunstctl", "set-paused", "toggle", NULL }} },
+	//{ ControlMask,                  XK_Pause,       spawn,           {.v = (const char*[]) { "dunstctl", "set-paused", "toggle", NULL }} },
 	{ SUPERKEY,                     XK_z,           spawn,           {.v = (const char*[]) { "dunstctl", "history-pop", NULL }} },
 	{ SUPERKEY|ShiftMask,           XK_z,           spawn,           {.v = (const char*[]) { "dunstctl", "close-all", NULL }} },
 	// applications
@@ -146,7 +146,7 @@ static Key keys[] = {
 	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/flameshot_window", NULL }} }, // https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2
 	{ MODKEY,                       XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/colorpickernotify", NULL }} },
 	// shutdown gui
-	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "exec python $HOME/.bin/misc/shutdownprompt/shutdownprompt.py \"$0\"", pidstring, NULL }} }, // https://github.com/mekb-turtle/shutdownprompt
+	{ MODKEY|ControlMask,           XK_Delete,      spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/power \"$0\"", pidstring, NULL }} }, // https://gist.github.com/mekb-turtle/909737b9bff3a8df4da04b7b1319968b
 	// kill client
 	{ MODKEY|ControlMask,           XK_End,         killclient,      {0} },
 	// tags

@@ -17,8 +17,8 @@ static const int unfailonbackspace = 1;
 
 /* Background image path, should be available to the user above */
 static const char *background_images[NUMCOLS] = {
-	[INIT] =   "/usr/share/backgrounds/waves/waves_base.png",      /* after initialization */
-	[INPUT] =  "/usr/share/backgrounds/waves/waves_input.png",     /* during input */
-	[FAILED] = "/usr/share/backgrounds/waves/waves_incorrect.png", /* wrong password */
-	[CAPS] =   "/usr/share/backgrounds/waves/waves_caps.png",      /* caps lock */
+	[INIT] =   "/usr/share/backgrounds/slock/init.png",      /* after initialization */
+	[INPUT] =  "/usr/share/backgrounds/slock/input.png",     /* during input */
+	[FAILED] = "/usr/share/backgrounds/slock/failed.png",    /* wrong password */
+	[CAPS] =   "/usr/share/backgrounds/slock/caps.png",      /* caps lock */
 };
