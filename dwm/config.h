@@ -91,16 +91,18 @@ static const char *const autostart[] = {
 	//"volumeicon", "-d", "default", NULL,
 	"pnmixer", NULL,
 	"flameshot", NULL,
-	"nm-applet", NULL,
 	"xautolock", "-time", "1", "-locker", "slock", NULL,
 	"slstatus", NULL,
 	//"slock", NULL, // uncomment if you want to lock on startup if you have autologin
 	"numlockx", NULL,
+	"pipewire", NULL,
+	"pipewire-pulse", NULL,
+	"wireplumber", NULL,
 	NULL
 };
 
-static const char *decBri[]  = { "xbacklight", "-dec", "15", NULL };
-static const char *incBri[]  = { "xbacklight", "-inc", "15", NULL };
+static const char *decBri[]  = { "brightnessctl", "s", "15%-", NULL };
+static const char *incBri[]  = { "brightnessctl", "s", "15%-", NULL };
 static const char *decVol[]  = { "pactl", "set-sink-volume", "0", "-5%",    NULL };
 static const char *incVol[]  = { "pactl", "set-sink-volume", "0", "+5%",    NULL };
 static const char *muteVol[] = { "pactl", "set-sink-mute",   "0", "toggle", NULL };
@@ -140,7 +142,7 @@ static Key keys[] = {
 	// lock
 	{ SUPERKEY,                     XK_l,           spawn,           {.v = (const char*[]) { "slock", NULL }} },
 	// screenshot
-	{ SUPERKEY,                     XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/screenshot", NULL }} }, // https://gist.github.com/mekb-turtle/169b6fb03627bdff40bbddfe9e1de70b
+//	{ SUPERKEY,                     XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "", NULL }} },
 	{ 0,                            XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "gui", NULL }} },
 	{ ShiftMask,                    XK_Print,       spawn,           {.v = (const char*[]) { "flameshot", "launcher", NULL }} },
 	{ ControlMask,                  XK_Print,       spawn,           {.v = (const char*[]) { "bash", "-c", "exec $HOME/.bin/misc/flameshot_window", NULL }} }, // https://gist.github.com/mekb-turtle/288af4251b43cfe2becf06590da7f1a2
