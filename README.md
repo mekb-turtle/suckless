@@ -1,4 +1,6 @@
 # suckless
+### archived, i now use wayland, hyprland/rofi
+
 my suckless configs
 
 also check out [my config files](https://github.com/mekb-turtle/configs)
